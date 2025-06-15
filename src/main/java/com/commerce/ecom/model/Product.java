@@ -3,6 +3,7 @@ package com.commerce.ecom.model;
 import jakarta.persistence.*;
 
 @Entity
+@Table(name = "products")
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO )
@@ -19,7 +20,11 @@ public class Product {
     @JoinColumn(name = "category_id")
     private Category category;
 
-    public Product(Long id, String productName, String description, String image, Integer quantity, double price, double specialPrice, double discount, Category category) {
+    @ManyToOne
+    @JoinColumn(name = "seller_id")
+    private User user;
+
+    public Product(Long id, String productName, String description, String image, Integer quantity, double price, double specialPrice, double discount, Category category, User user) {
         this.id = id;
         this.productName = productName;
         this.description = description;
@@ -29,6 +34,15 @@ public class Product {
         this.specialPrice = specialPrice;
         this.discount = discount;
         this.category = category;
+        this.user = user;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public double getDiscount() {
@@ -104,5 +118,21 @@ public class Product {
     }
 
     public Product() {
+    }
+
+    @Override
+    public String toString() {
+        return "Product{" +
+                "id=" + id +
+                ", productName='" + productName + '\'' +
+                ", description='" + description + '\'' +
+                ", image='" + image + '\'' +
+                ", quantity=" + quantity +
+                ", price=" + price +
+                ", specialPrice=" + specialPrice +
+                ", discount=" + discount +
+                ", category=" + category +
+                ", user=" + user +
+                '}';
     }
 }
